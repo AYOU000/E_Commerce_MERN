@@ -4,6 +4,7 @@ import userRoute from './routes/userRoute.js';
 import productRoute from './routes/productRoute.js';
 import mongoose from 'mongoose';
 import { seedinitialproduct } from './services/Productservice.js';
+import cartRoute from './routes/cartRoute.js';
 
 const app: Express = express();
 const PORT = 3000;
@@ -15,6 +16,7 @@ seedinitialproduct()
 app.use(express.json());
 app.use('/product',productRoute)
 app.use('/users', userRoute);
+app.use('/cart',cartRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
