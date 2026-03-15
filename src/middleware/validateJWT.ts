@@ -1,11 +1,8 @@
 import { Request,Response,NextFunction } from "express";
 import jwt from 'jsonwebtoken';
 import userModel from "../models/userModel";
+import { extendRequest } from "../types/extendRequest";
 
- export interface extendRequest extends Request
-{
-  user?:any;
-}
 const validateJWT = (req:extendRequest, res:Response,next: NextFunction) =>
 {
 
