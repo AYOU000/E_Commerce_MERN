@@ -1,5 +1,5 @@
 import express, { Response } from "express";
-import { additemforuser, deleteitemforuser, getActiveCartforUser, updateitemforuser } from "../services/cartservices";
+import { additemforuser, clearCartforuser, deleteitemforuser, getActiveCartforUser, updateitemforuser } from "../services/cartservices";
 import { extendRequest } from "../types/extendRequest";
 import validateJWT from "../middleware/validateJWT";
 
@@ -10,7 +10,11 @@ Router.get('/', validateJWT, async (req: extendRequest, res: Response) => {
   const cart = await getActiveCartforUser({ userId });
   res.status(200).send(cart);
 });
-
+Router.delete('/', validateJWT, async (req: extendRequest, res: Response) => {
+  const userId = req?.user?._id;
+  const response =   await clearCartforuser({ userId });
+  res.status(response.statusCode).send(response.data);
+});
 Router.post('/item', validateJWT, async (req: extendRequest, res: Response) => {
    const userId = req?.user?._id;
    const {productId,quantity} = req.body;
@@ -30,3 +34,7 @@ Router.delete('/item/:productId', validateJWT, async (req: extendRequest, res: R
   res.status(response.statusCode).send(response.data);
 });
 export default Router;
+
+function clearCart(arg0: { userId: any; }) {
+  throw new Error("Function not implemented.");
+}

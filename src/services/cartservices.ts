@@ -24,6 +24,17 @@ export const getActiveCartforUser = async ({
   }
   return cart;
 };
+interface clearCartPrams {
+  userId: string;
+}
+export const clearCartforuser =  async ({userId}:clearCartPrams) =>
+{
+  const cart = await  getActiveCartforUser({userId});
+  cart.items = [] ;
+  cart.totalAmount = 0;
+  const updatedcart = await  cart.save();
+  return { data: updatedcart, statusCode: 200 };
+}
 interface additemforuserPrams {
   productId: any;
   quantity: number;
