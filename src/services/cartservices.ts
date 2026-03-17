@@ -63,3 +63,49 @@ export const additemforuser = async ({
   return {data:updatedcart,statusCode:200};
 
 };
+interface updateitemforuserPrams {
+  productId: any;
+  quantity: number;
+  userId: string;
+}
+
+export  const updateitemforuser =  async ({
+  productId,
+  quantity,
+  userId,
+}: updateitemforuserPrams) =>
+{
+  const cart = await getActiveCartforUser({ userId });
+
+  const exsistProduct = cart.items.find((p) => {
+   return  p.product.toString() === productId.toString();
+  });
+    if(!exsistProduct)
+  {
+    return {data:"product already doesn t exsit  in the cart ",statusCode:400};
+  }
+  const product = await productModel.findById(productId);
+  if(!product)
+  {
+    return {data:"product not found!",statusCode:400}
+  }
+  if(product.stock < quantity)
+  {
+    return {data:"low product stock fro item !",statusCode:400}
+  }
+
+  const otherproduct = cart.items.filter((p)=>
+  {
+   return  p.product.toString() !== productId.toString(); 
+  })
+  let total = otherproduct.reduce((sum,product)=>
+  {
+   sum += product.quantity*product.unitPrice;
+   return sum;
+  },0)
+  exsistProduct.quantity = quantity;
+  total += exsistProduct.quantity*exsistProduct.unitPrice;
+  cart.totalAmount = total;
+   const updatedcart = await cart.save();
+  return {data:updatedcart,statusCode:200};
+}
