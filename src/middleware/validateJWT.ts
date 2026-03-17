@@ -21,7 +21,7 @@ const validateJWT = (req:extendRequest, res:Response,next: NextFunction) =>
         return; 
     }
 
-    jwt.verify(token,"BkD+ur1mE8LfZM6KI2X3XZmkDJt0ZXKrbOOJyATqqZI=" ,async (err,playload)=>
+    jwt.verify(token,process.env.JWT_SECRETKEY || '' ,async (err,playload)=>
     {
       if(err)
       {

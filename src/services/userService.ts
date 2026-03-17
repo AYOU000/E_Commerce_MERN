@@ -42,7 +42,7 @@ export const login = async ({email,password}:loginPrams) =>
 
 const generateJWT = (data:any) =>
 {
-  return jwt.sign(data,'BkD+ur1mE8LfZM6KI2X3XZmkDJt0ZXKrbOOJyATqqZI=' ,
+  return jwt.sign(data,process.env.JWT_SECRETKEY || '' ,
     // { expiresIn: '6h' }
     )
 }

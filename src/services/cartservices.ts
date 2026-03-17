@@ -1,4 +1,5 @@
 import cartModel from "../models/cartModule";
+import orderModel, {  OrderItemInput } from "../models/orderModule";
 import productModel from "../models/productModel";
 
 interface creatCartforUserPrams {
@@ -138,3 +139,38 @@ export const deleteitemforuser = async ({
   const updatedcart = await cart.save();
   return { data: updatedcart, statusCode: 200 };
 };
+interface checkoutforuserPrams {
+  userId: string;
+  address: string;
+}
+export const checkoutforuser = async ({userId, address}:checkoutforuserPrams) =>
+{
+  const cart = await getActiveCartforUser({ userId });
+  const orderitems: OrderItemInput[] = [];
+
+  for(const item of cart.items)
+  {
+    const product = await productModel.findById(item.product);
+    if (!product) {
+    return { data: "product not found!", statusCode: 400 };
+  }  
+    const orderItem: OrderItemInput  = {
+      productTitle: product.title,
+      productImage:product.image,
+      unitPrice:item.unitPrice,
+      quantity:item.quantity,
+    };
+     orderitems.push(orderItem);
+  }
+
+  const order = await orderModel.create({
+    orderitem:orderitems,
+    total: cart.totalAmount,
+    address,
+    userId
+  });
+  await order.save();
+  cart.status = "completed";
+  await cart.save();
+  return {data:order,statusCode: 200}
+}

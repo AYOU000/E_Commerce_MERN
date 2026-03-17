@@ -7,7 +7,7 @@ return  await productModel.find();
 
 export const seedinitialproduct = async () =>
 {
- const products = [
+ try { const products = [
   {
     title: "Wireless Noise-Cancelling Headphones",
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
@@ -69,10 +69,14 @@ export const seedinitialproduct = async () =>
     stock: 45,
   },
 ]; 
-
   const exsitingproduct = await getallproduct();
   if(exsitingproduct.length === 0)
   {
     await productModel.insertMany(products)
   }
+}
+catch(err)
+{
+  console.error("can not see database",err)
+}
 }
