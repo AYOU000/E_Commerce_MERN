@@ -6,8 +6,10 @@ import productRoute from './routes/productRoute.js';
 import mongoose from 'mongoose';
 import { seedinitialproduct } from './services/Productservice.js';
 import cartRoute from './routes/cartRoute.js';
+import cors from 'cors';
 dotevn.config();
 const app: Express = express();
+app.use(cors());
 const PORT = 3000;
 mongoose.connect(process.env.DATA_BASEURL || '')
   .then(() => console.log('mango connected!'))

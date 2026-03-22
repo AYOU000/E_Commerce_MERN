@@ -9,66 +9,66 @@ export const seedinitialproduct = async () =>
 {
  try { const products = [
   {
-    title: "Wireless Noise-Cancelling Headphones",
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop",
-    price: 299.99,
-    stock: 14,
+    title: "Grand Theft Auto V",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/271590/header.jpg",
+    price: 29.99,
+    stock: 99,
   },
   {
-    title: "Minimalist Leather Watch",
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop",
-    price: 189.00,
-    stock: 7,
+    title: "Cyberpunk 2077",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1091500/header.jpg",
+    price: 59.99,
+    stock: 99,
   },
   {
-    title: "Running Sneakers Pro",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop",
-    price: 134.95,
-    stock: 32,
+    title: "Red Dead Redemption 2",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1174180/header.jpg",
+    price: 39.99,
+    stock: 99,
   },
   {
-    title: "Mechanical Keyboard TKL",
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&h=400&fit=crop",
-    price: 159.00,
+    title: "Elden Ring",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg",
+    price: 59.99,
+    stock: 10,
+  },
+  {
+    title: "God of War",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1593500/header.jpg",
+    price: 49.99,
+    stock: 20,
+  },
+  {
+    title: "Spider-Man Miles Morales",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1817070/header.jpg",
+    price: 49.99,
+    stock: 15,
+  },
+  {
+    title: "The Witcher 3",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/292030/header.jpg",
+    price: 19.99,
+    stock: 99,
+  },
+  {
+    title: "Hogwarts Legacy",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/990080/header.jpg",
+    price: 59.99,
+    stock: 8,
+  },
+  {
+    title: "Call of Duty Modern Warfare III",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/2519060/header.jpg",
+    price: 69.99,
     stock: 0,
   },
   {
-    title: "Portable Bluetooth Speaker",
-    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop",
-    price: 89.99,
-    stock: 21,
+    title: "Baldur's Gate 3",
+    image: "https://cdn.cloudflare.steamstatic.com/steam/apps/1086940/header.jpg",
+    price: 59.99,
+    stock: 30,
   },
-  {
-    title: "Ceramic Coffee Pour-Over Set",
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop",
-    price: 54.00,
-    stock: 5,
-  },
-  {
-    title: "Ultrawide 34\" Monitor",
-    image: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400&h=400&fit=crop",
-    price: 749.00,
-    stock: 3,
-  },
-  {
-    title: "Linen Tote Bag",
-    image: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&h=400&fit=crop",
-    price: 38.50,
-    stock: 60,
-  },
-  {
-    title: "Succulent Plant Trio",
-    image: "https://images.unsplash.com/photo-1459156212016-c812468e2115?w=400&h=400&fit=crop",
-    price: 27.00,
-    stock: 18,
-  },
-  {
-    title: "Hardcover Dot-Grid Notebook",
-    image: "https://images.unsplash.com/photo-1531346878377-a5be20888e57?w=400&h=400&fit=crop",
-    price: 19.99,
-    stock: 45,
-  },
-]; 
+] 
   const exsitingproduct = await getallproduct();
   if(exsitingproduct.length === 0)
   {
