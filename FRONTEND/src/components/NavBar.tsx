@@ -16,7 +16,6 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-// Electric SVG lightning background rendered inside the AppBar
 const LightningBg = () => (
   <Box
     sx={{
@@ -34,38 +33,38 @@ const LightningBg = () => (
       preserveAspectRatio="xMidYMid slice"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Large center bolt */}
+
       <polygon
         points="580,4 558,32 572,32 548,60 600,28 582,28 610,4"
         fill="#FFE600"
         opacity="0.18"
       />
-      {/* Left mid bolt */}
+
       <polygon
         points="180,6 163,28 173,28 154,58 198,26 184,26 204,6"
         fill="#FFE600"
         opacity="0.1"
       />
-      {/* Right mid bolt */}
+  
       <polygon
         points="980,8 964,30 974,30 956,58 998,28 984,28 1002,8"
         fill="#FFE600"
         opacity="0.1"
       />
-      {/* Far left tiny bolt */}
+
       <polygon
         points="60,10 50,26 57,26 44,54 74,24 64,24 76,10"
         fill="#FFE600"
         opacity="0.07"
       />
-      {/* Far right tiny bolt */}
+  
       <polygon
         points="1130,10 1120,26 1127,26 1114,54 1144,24 1134,24 1146,10"
         fill="#FFE600"
         opacity="0.07"
       />
 
-      {/* Electric crackle left half */}
+ 
       <polyline
         points="0,40 80,38 110,22 160,36 230,20 280,40 360,28 440,42 520,18 580,32"
         fill="none"
@@ -73,7 +72,7 @@ const LightningBg = () => (
         strokeWidth="0.6"
         opacity="0.14"
       />
-      {/* Electric crackle right half */}
+  
       <polyline
         points="580,32 640,20 720,44 800,24 870,40 950,18 1030,38 1100,22 1200,34"
         fill="none"
@@ -82,7 +81,7 @@ const LightningBg = () => (
         opacity="0.14"
       />
 
-      {/* Subtle horizontal glow band */}
+      
       <rect x="0" y="30" width="1200" height="1.5" fill="#FFE600" opacity="0.06" rx="1" />
 
       {/* Spark dots */}
@@ -122,7 +121,7 @@ function NavBar() {
         position: 'relative',
       }}
     >
-      {/* Lightning bolt SVG layer */}
+
       <LightningBg />
 
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
@@ -157,7 +156,7 @@ function NavBar() {
             1UP
           </Typography>
 
-          {/* Mobile: Hamburger */}
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton size="large" onClick={handleOpenNavMenu} sx={{ color: '#FFE600' }}>
               <MenuIcon />
@@ -195,7 +194,7 @@ function NavBar() {
             </Menu>
           </Box>
 
-          {/* Mobile: Logo */}
+
           <VideogameAssetIcon
             sx={{
               display: { xs: 'flex', md: 'none' },
@@ -223,7 +222,7 @@ function NavBar() {
             1UP
           </Typography>
 
-          {/* Desktop Nav Links */}
+
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 0.5 }}>
             {pages.map((page) => (
               <Button
@@ -262,7 +261,7 @@ function NavBar() {
             ))}
           </Box>
 
-          {/* Avatar */}
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton
@@ -321,7 +320,7 @@ function NavBar() {
         </Toolbar>
       </Container>
 
-      {/* Google Font: Orbitron */}
+ 
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');`}</style>
     </AppBar>
   );
