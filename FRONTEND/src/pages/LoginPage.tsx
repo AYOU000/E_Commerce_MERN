@@ -2,38 +2,26 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useRef, useState } from "react";
 import { baseURL } from "../constants/baseURL";
-import { useAuth } from "../context/auth/AuthContext";
 
-const RegisterPage = () => {
+const loginPage = () => {
   const [error, setError] = useState("");
-  const FirstNameRef = useRef<HTMLInputElement>(null);
-  const LastNameRef = useRef<HTMLInputElement>(null);
   const EmailRef = useRef<HTMLInputElement>(null);
   const PasswordRef = useRef<HTMLInputElement>(null);
 
-  const {login} = useAuth();
-
   const onSubmit = async (e: React.MouseEvent) => {
      e.preventDefault();
-    const firstname = FirstNameRef.current?.value;
-    const lastname = LastNameRef.current?.value;
+  
     const email = EmailRef.current?.value;
     const password = PasswordRef.current?.value;
 
-    if(!firstname || !lastname || !email || !password)
-    {
-      setError("check submitted data!")
-     return;
-    }
-
-    const response = await fetch(`${baseURL}/users/Register`, {
+    const response = await fetch(`${baseURL}/users/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstname, lastname, email, password }),
+      body: JSON.stringify({  email, password }),
     });
 
     if (response.status === 400) {
-      setError("This email is already registered.");
+      setError("incorrect email or password.");
       return;
     }
 
@@ -41,16 +29,8 @@ const RegisterPage = () => {
       setError("Something went wrong. Please try again.");
       return;
     }
-
-    const token = await response.json();
-
-    if(!token)
-    {
-      setError("incorrect token");
-      return;  
-    }
-    login(email,token)  
-    console.log(token);
+    const data = await response.json();
+    console.log(data);
   };
 
   const fieldSx = {
@@ -108,7 +88,7 @@ const RegisterPage = () => {
               mb: 1,
             }}
           >
-            CREATE ACCOUNT
+            lOG IN 
           </Typography>
 
           {/* ✅ Error message */}
@@ -138,21 +118,6 @@ const RegisterPage = () => {
               </Typography>
             </Box>
           )}
-
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <TextField
-              inputRef={FirstNameRef}
-              fullWidth
-              label="First Name"
-              sx={fieldSx}
-            />
-            <TextField
-              inputRef={LastNameRef}
-              fullWidth
-              label="Last Name"
-              sx={fieldSx}
-            />
-          </Box>
 
           <TextField
             inputRef={EmailRef}
@@ -196,4 +161,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default loginPage;
