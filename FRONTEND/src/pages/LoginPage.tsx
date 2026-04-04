@@ -2,22 +2,30 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { useRef, useState } from "react";
 import { baseURL } from "../constants/baseURL";
+import { useAuth } from "../context/auth/AuthContext";
+import { useNavigate } from "react-router";
 
 const loginPage = () => {
   const [error, setError] = useState("");
   const EmailRef = useRef<HTMLInputElement>(null);
   const PasswordRef = useRef<HTMLInputElement>(null);
-
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const onSubmit = async (e: React.MouseEvent) => {
-     e.preventDefault();
-  
+    e.preventDefault();
+
     const email = EmailRef.current?.value;
     const password = PasswordRef.current?.value;
+
+    if (!email || !password) {
+      setError("check submitted data!");
+      return;
+    }
 
     const response = await fetch(`${baseURL}/users/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({  email, password }),
+      body: JSON.stringify({ email, password }),
     });
 
     if (response.status === 400) {
@@ -29,8 +37,14 @@ const loginPage = () => {
       setError("Something went wrong. Please try again.");
       return;
     }
-    const data = await response.json();
-    console.log(data);
+    const token = await response.json();
+    if (!token) {
+      setError("incorrect token");
+      return;
+    }
+    login(email, token);
+    console.log(token);
+    navigate("/");
   };
 
   const fieldSx = {
@@ -88,7 +102,7 @@ const loginPage = () => {
               mb: 1,
             }}
           >
-            lOG IN 
+            lOG IN
           </Typography>
 
           {/* ✅ Error message */}
@@ -153,8 +167,22 @@ const loginPage = () => {
               },
             }}
           >
-            REGISTER
+            lOG IN
           </Button>
+          <Typography
+            onClick={() => navigate("/Register")}
+            sx={{
+              textAlign: "center",
+              color: "rgba(255,255,255,0.4)",
+              fontFamily: '"Orbitron", monospace',
+              fontSize: "0.68rem",
+              cursor: "pointer",
+              "&:hover": { color: "#FFE600" },
+              transition: "color 0.2s",
+            }}
+          >
+            CREATE ACCOUNT
+          </Typography>
         </Box>
       </Box>
     </Container>
