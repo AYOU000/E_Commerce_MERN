@@ -13,10 +13,16 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         localStorage.setItem('username',username);
         localStorage.setItem('token',token); 
     };
-   const isauthenticated = !!token;
- 
+   const logout = () =>
+   {
+     localStorage.removeItem("token");
+     localStorage.removeItem("username"); 
+     setToken(null);
+     setusername(null);
+   }
+     const isauthenticated = !!token;
     return (   
-       < AuthContext.Provider value={{username ,token ,login ,isauthenticated}}>
+       < AuthContext.Provider value={{username ,token ,login ,isauthenticated,logout}}>
         {children}
        </ AuthContext.Provider>
     )

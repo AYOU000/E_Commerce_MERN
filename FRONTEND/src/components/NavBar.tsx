@@ -113,15 +113,15 @@ function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
-    const navigate =  useNavigate();
-  const { username, isauthenticated } = useAuth();
+  const navigate = useNavigate();
+  const { username, isauthenticated, logout } = useAuth();
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) =>
     setAnchorElNav(event.currentTarget);
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) =>
     setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
-  const handleLogin = () => navigate('/login')
+  const handleLogin = () => navigate("/login");
   return (
     <AppBar
       position="static"
@@ -153,7 +153,7 @@ function NavBar() {
             component="a"
             onClick={() => navigate("/")}
             sx={{
-             cursor: "pointer",
+              cursor: "pointer",
               mr: 4,
               display: { xs: "none", md: "flex" },
               fontFamily: '"Orbitron", monospace',
@@ -316,7 +316,13 @@ function NavBar() {
                   {settings.map((setting) => (
                     <MenuItem
                       key={setting}
-                      onClick={handleCloseUserMenu}
+                      onClick={() => {
+                        handleCloseUserMenu();
+                        if (setting === "Logout") {
+                          logout();
+                          navigate('/');
+                        } 
+                      }}
                       sx={{
                         color: "rgba(255,255,255,0.75)",
                         fontFamily: '"Orbitron", monospace',
@@ -334,8 +340,8 @@ function NavBar() {
               </>
             ) : (
               <Button
-               onClick={handleLogin}
-               variant="outlined"
+                onClick={handleLogin}
+                variant="outlined"
                 sx={{
                   color: "#FFE600",
                   borderColor: "#FFE600",
