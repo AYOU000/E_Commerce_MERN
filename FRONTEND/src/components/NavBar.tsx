@@ -14,6 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import { useAuth } from "../context/auth/AuthContext";
 import { useNavigate } from "react-router";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Badge } from "@mui/material";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -275,10 +277,31 @@ function NavBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box
+            sx={{ display: "flex", flexDirection: "row", flexGrow: 0 }}
+            gap={4}
+            alignItems={"center"}
+          >
             {isauthenticated ? (
               <>
-                {" "}
+                <IconButton aria-label="cart">
+                  <Badge badgeContent={1} color="secondary">
+                    <ShoppingCartIcon
+                      onClick={() => navigate("/cart")}
+                      sx={{
+                        mr: 1,
+                        color: "#FFE600",
+                        cursor: "pointer",
+                        filter: "drop-shadow(0 0 5px #FFE600)",
+                        transition: "filter 0.2s",
+                        "&:hover": {
+                          filter:
+                            "drop-shadow(0 0 12px #FFE600) drop-shadow(0 0 20px rgba(255,230,0,0.6))",
+                        },
+                      }}
+                    />
+                  </Badge>
+                </IconButton>{" "}
                 <Tooltip title="Open settings">
                   <IconButton
                     onClick={handleOpenUserMenu}
@@ -320,8 +343,8 @@ function NavBar() {
                         handleCloseUserMenu();
                         if (setting === "Logout") {
                           logout();
-                          navigate('/');
-                        } 
+                          navigate("/");
+                        }
                       }}
                       sx={{
                         color: "rgba(255,255,255,0.75)",
