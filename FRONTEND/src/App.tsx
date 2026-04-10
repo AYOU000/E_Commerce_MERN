@@ -6,11 +6,13 @@ import LoginPage from "./pages/LoginPage";
 import AuthProvider from "./context/auth/AuthProvider";
 import CartPage from "./pages/CartPage";
 import ProtactedRoute from "./components/ProtactedRoute";
+import CartProvider from "./context/cart/cartPovider";
 
 function App() {
   return (
     <>
       <AuthProvider>
+        <CartProvider>
         <BrowserRouter>
           <NavBar />
           <Routes>
@@ -22,6 +24,7 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+        </CartProvider>
       </AuthProvider>
     </>
   );

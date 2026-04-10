@@ -4,6 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useCart } from "../context/cart/cartcontext";
 
 interface props {
   image: string;
@@ -11,7 +12,8 @@ interface props {
   price: string;
   _id: string;
 }
-export default function productCard({ image, title, price }: props) {
+export default function productCard({ _id, image, title, price }: props) {
+  const { addItemToCart } = useCart();
   return (
     <Card
       sx={{
@@ -53,6 +55,7 @@ export default function productCard({ image, title, price }: props) {
             color: "#000000",
             fontFamily: '"Orbitron", monospace',
           }}
+          onClick={() => addItemToCart(_id)}
         >
           add to cart
         </Button>
