@@ -1,52 +1,49 @@
-import { Request,Response,NextFunction } from "express";
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 import userModel from "../models/userModel";
 import { extendRequest } from "../types/extendRequest";
 
-const validateJWT = (req:extendRequest, res:Response,next: NextFunction) =>
-{
+const validateJWT = (req: extendRequest, res: Response, next: NextFunction) => {
+  const authorizationheader = req.get("authorization");
 
-    const authorizationheader = req.get("authorization");
-    
-    if(!authorizationheader)
-    {
-        res.status(403).send("authorization header wasn t provided");
-        return;
+  if (!authorizationheader) {
+    res.status(403).json({ message: "Authorization header was not provided" });
+    return;
+  }
+
+  const token = authorizationheader.split(" ")[1];
+
+  if (!token) {
+    res.status(403).json({ message: "Bearer token not found" });
+    return;
+  }
+
+  jwt.verify(token, process.env.JWT_SECRETKEY || "", async (err, payload) => {
+    if (err) {
+      res.status(403).json({ message: "Invalid token" });
+      return;
     }
-    const token = authorizationheader.split(" ")[1];
 
-    if(!token)
-    {
-        res.status(403).send("bearer token not  found");
-        return; 
+    if (!payload) {
+      res.status(403).json({ message: "Invalid token payload" });
+      return;
     }
 
-    jwt.verify(token,process.env.JWT_SECRETKEY || '' ,async (err,playload)=>
-    {
-      if(err)
-      {
-        res.status(403).send("invalid token");
-        return;
-      }
+    const payloadUser = payload as {
+      firstname: string;
+      lastname: string;
+      email: string;
+    };
 
-      if(!playload)
-      {
-         res.status(403).send("invalid token playload");
-        return;
-      }
-       const playloadUser = playload as 
-       {
-          firstname:string;
-          lastname:string;
-          email:string;
-       }
+    const user = await userModel.findOne({ email: payloadUser.email });
+    if (!user) {
+      res.status(403).json({ message: "User not found" });
+      return;
+    }
 
-       const user = await userModel.findOne({email:playloadUser.email})
-       req.user =  user;
-       next();
-    })
-
-}
-
+    req.user = user;
+    next();
+  });
+};
 
 export default validateJWT;

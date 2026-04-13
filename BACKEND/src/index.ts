@@ -10,13 +10,13 @@ import cors from 'cors';
 dotevn.config();
 const app: Express = express();
 app.use(cors());
+app.use(express.json());
 const PORT = 3000;
 mongoose.connect(process.env.DATA_BASEURL || '')
   .then(() => console.log('mango connected!'))
   .catch((err) => console.log("there problem", err))
 
 seedinitialproduct()
-app.use(express.json());
 app.use('/product',productRoute)
 app.use('/users', userRoute);
 app.use('/cart',cartRoute);

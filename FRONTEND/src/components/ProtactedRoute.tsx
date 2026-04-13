@@ -7,9 +7,7 @@ const ProtactedRoute = () =>
     const { isauthenticated } = useAuth();
      if(!isauthenticated)
      {
-
-        return <Usererror />;
-          
+        return <Usererror />; 
      }
     return (<Outlet/>)
 }

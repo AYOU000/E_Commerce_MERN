@@ -1,397 +1,342 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
+import Badge from "@mui/material/Badge";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import MenuIcon from "@mui/icons-material/Menu";
 import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
-import { useAuth } from "../context/auth/AuthContext";
-import { useNavigate } from "react-router";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Badge } from "@mui/material";
+import { useAuth } from "../context/auth/AuthContext";
+import { useNavigate, useLocation } from "react-router";
 
-const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const pages = [
+  { label: "HOME",  path: "/" },
+  { label: "Games", path: "/Games" },
+  { label: "Blog",  path: "/blog" },
+];
+const settings = ["Orders", "Account", "Logout"];
 
+// ── Cyber button style ────────────────────────────────────────────────────────
+const cyberButtonSx = (variant: "ghost" | "primary" = "ghost") => ({
+  position: "relative",
+  overflow: "hidden",
+  fontFamily: '"Orbitron", monospace',
+  fontWeight: 700,
+  fontSize: "0.68rem",
+  letterSpacing: "0.13em",
+  textTransform: "uppercase",
+  px: 2.5,
+  py: 0.9,
+  borderRadius: "8px",
+  color: "#FFE600",
+  backdropFilter: "blur(8px)",
+  transition: "all 0.25s ease",
+  ...(variant === "ghost"
+    ? {
+        background: "rgba(0, 8, 63, 0.55)",
+        border: "1px solid rgba(255, 230, 0, 0.35)",
+        boxShadow: "0 0 10px rgba(255,230,0,0.18)",
+      }
+    : {
+        background: "rgba(255, 230, 0, 0.1)",
+        border: "1px solid rgba(255, 230, 0, 0.6)",
+        boxShadow: "0 0 16px rgba(255,230,0,0.3)",
+      }),
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    borderRadius: "8px",
+    padding: "1px",
+    background: "linear-gradient(120deg, #FFE600, #00F0FF, #FFE600)",
+    backgroundSize: "200% 100%",
+    animation: "borderShift 4s linear infinite",
+    WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+    WebkitMaskComposite: "xor",
+    maskComposite: "exclude",
+    pointerEvents: "none",
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: "-100%",
+    width: "100%",
+    height: "100%",
+    background: "linear-gradient(120deg, transparent, rgba(255,255,255,0.22), transparent)",
+    transition: "left 0.5s ease",
+    pointerEvents: "none",
+  },
+  "&:hover": {
+    background: variant === "primary" ? "rgba(255,230,0,0.18)" : "rgba(255,230,0,0.07)",
+    boxShadow: variant === "primary"
+      ? "0 0 28px rgba(255,230,0,0.7), 0 0 8px rgba(0,240,255,0.3)"
+      : "0 0 20px rgba(255,230,0,0.5)",
+    transform: "translateY(-2px)",
+  },
+  "&:hover::after": { left: "100%" },
+  "&:active": { transform: "scale(0.96)", boxShadow: "0 0 10px rgba(255,230,0,0.4)" },
+});
+
+// ── Lightning SVG background ──────────────────────────────────────────────────
 const LightningBg = () => (
-  <Box
-    sx={{
-      position: "absolute",
-      inset: 0,
-      overflow: "hidden",
-      pointerEvents: "none",
-      zIndex: 0,
-    }}
-  >
-    <svg
-      width="100%"
-      height="100%"
-      viewBox="0 0 1200 64"
-      preserveAspectRatio="xMidYMid slice"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <polygon
-        points="580,4 558,32 572,32 548,60 600,28 582,28 610,4"
-        fill="#FFE600"
-        opacity="0.18"
-      />
-
-      <polygon
-        points="180,6 163,28 173,28 154,58 198,26 184,26 204,6"
-        fill="#FFE600"
-        opacity="0.1"
-      />
-
-      <polygon
-        points="980,8 964,30 974,30 956,58 998,28 984,28 1002,8"
-        fill="#FFE600"
-        opacity="0.1"
-      />
-
-      <polygon
-        points="60,10 50,26 57,26 44,54 74,24 64,24 76,10"
-        fill="#FFE600"
-        opacity="0.07"
-      />
-
-      <polygon
-        points="1130,10 1120,26 1127,26 1114,54 1144,24 1134,24 1146,10"
-        fill="#FFE600"
-        opacity="0.07"
-      />
-
-      <polyline
-        points="0,40 80,38 110,22 160,36 230,20 280,40 360,28 440,42 520,18 580,32"
-        fill="none"
-        stroke="#FFE600"
-        strokeWidth="0.6"
-        opacity="0.14"
-      />
-
-      <polyline
-        points="580,32 640,20 720,44 800,24 870,40 950,18 1030,38 1100,22 1200,34"
-        fill="none"
-        stroke="#FFE600"
-        strokeWidth="0.6"
-        opacity="0.14"
-      />
-
-      <rect
-        x="0"
-        y="30"
-        width="1200"
-        height="1.5"
-        fill="#FFE600"
-        opacity="0.06"
-        rx="1"
-      />
-
-      {/* Spark dots */}
+  <Box sx={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none", zIndex: 0 }}>
+    <svg width="100%" height="100%" viewBox="0 0 1200 62" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="580,4 558,28 572,28 548,56 600,26 582,26 610,4"   fill="#FFE600" opacity="0.13" />
+      <polygon points="180,6 163,24 173,24 154,52 198,22 184,22 204,6"   fill="#FFE600" opacity="0.07" />
+      <polygon points="980,6 964,24 974,24 956,52 998,22 984,22 1002,6"  fill="#FFE600" opacity="0.07" />
+      <polygon points="60,8  50,22  57,22  44,48  74,20  64,20  76,8"    fill="#FFE600" opacity="0.05" />
+      <polygon points="1130,8 1120,22 1127,22 1114,48 1144,20 1134,20 1146,8" fill="#FFE600" opacity="0.05" />
+      <polyline points="0,36 80,34 110,20 160,32 230,18 280,36 360,26 440,40 520,16 580,30"
+        fill="none" stroke="#FFE600" strokeWidth="0.55" opacity="0.12" />
+      <polyline points="580,30 640,18 720,40 800,22 870,36 950,16 1030,34 1100,20 1200,30"
+        fill="none" stroke="#FFE600" strokeWidth="0.55" opacity="0.12" />
+      <rect x="0" y="30" width="1200" height="1" fill="#FFE600" opacity="0.05" rx="1" />
       {[90, 260, 430, 600, 770, 940, 1100].map((x, i) => (
-        <circle
-          key={i}
-          cx={x}
-          cy={i % 2 === 0 ? 14 : 50}
-          r="1.5"
-          fill="#FFE600"
-          opacity="0.22"
-        />
+        <circle key={i} cx={x} cy={i % 2 === 0 ? 14 : 48} r="1.5" fill="#FFE600" opacity="0.2" />
       ))}
     </svg>
   </Box>
 );
 
+// ── NavBar ────────────────────────────────────────────────────────────────────
 function NavBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null,
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null,
-  );
-  const navigate = useNavigate();
+  const [anchorElNav,  setAnchorElNav]  = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+  const navigate  = useNavigate();
+  const location  = useLocation();
   const { username, isauthenticated, logout } = useAuth();
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) =>
-    setAnchorElNav(event.currentTarget);
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) =>
-    setAnchorElUser(event.currentTarget);
-  const handleCloseNavMenu = () => setAnchorElNav(null);
+
+  const handleOpenNavMenu  = (e: React.MouseEvent<HTMLElement>) => setAnchorElNav(e.currentTarget);
+  const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) => setAnchorElUser(e.currentTarget);
+  const handleCloseNavMenu  = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
-  const handleLogin = () => navigate("/login");
+
+  const isActive = (path: string) =>
+    path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
+
   return (
-    <AppBar
-      position="static"
-      sx={{
-        background: "#000000",
-        borderBottom: "1.5px solid rgba(255,230,0,0.35)",
-        boxShadow: "0 2px 24px rgba(255,230,0,0.12)",
-        overflow: "hidden",
-        position: "relative",
-      }}
-    >
-      <LightningBg />
+    <>
+      <GlobalStyles styles={`
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
+        @keyframes borderShift {
+          0%   { background-position: 0% 0%; }
+          100% { background-position: 200% 0%; }
+        }
+      `} />
 
-      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 1 }}>
-        <Toolbar disableGutters>
-          {/* Desktop: Icon + Logo */}
-          <VideogameAssetIcon
-            sx={{
-              display: { xs: "none", md: "flex" },
-              mr: 1,
-              color: "#FFE600",
-              fontSize: 28,
-              filter: "drop-shadow(0 0 5px #FFE600)",
-            }}
-          />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            onClick={() => navigate("/")}
-            sx={{
-              cursor: "pointer",
-              mr: 4,
-              display: { xs: "none", md: "flex" },
-              fontFamily: '"Orbitron", monospace',
-              fontWeight: 900,
-              letterSpacing: "0.12em",
-              color: "#FFE600",
-              textDecoration: "none",
-              textShadow: "0 0 8px #FFE600, 0 0 18px rgba(255,230,0,0.4)",
-            }}
-          >
+      {/* ── Nav container ── */}
+      <Box
+        component="nav"
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 1100,
+          background: "#0a0a0a",
+          borderBottom: "1.5px solid rgba(255,230,0,0.28)",
+          boxShadow: "0 2px 24px rgba(255,230,0,0.1)",
+          height: 62,
+          px: { xs: 2, md: 5 },
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          overflow: "hidden",
+        }}
+      >
+        <LightningBg />
+
+        {/* ── Logo ── */}
+        <Box
+          onClick={() => navigate("/")}
+          sx={{ display: "flex", alignItems: "center", gap: 1, zIndex: 1, cursor: "pointer" }}
+        >
+          <VideogameAssetIcon sx={{ color: "#FFE600", fontSize: 26, filter: "drop-shadow(0 0 5px #FFE600)" }} />
+          <Typography sx={{
+            fontFamily: '"Orbitron", monospace',
+            fontWeight: 900,
+            fontSize: "17px",
+            color: "#FFE600",
+            letterSpacing: "0.14em",
+            textShadow: "0 0 10px rgba(255,230,0,0.55)",
+            userSelect: "none",
+          }}>
             1UP
           </Typography>
+        </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              onClick={handleOpenNavMenu}
-              sx={{ color: "#FFE600" }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              anchorEl={anchorElNav}
-              anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-              keepMounted
-              transformOrigin={{ vertical: "top", horizontal: "left" }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-                "& .MuiPaper-root": {
-                  backgroundColor: "#0d0d0d",
-                  border: "1px solid rgba(255,230,0,0.3)",
-                  boxShadow: "0 0 20px rgba(255,230,0,0.2)",
-                },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{
-                    color: "#FFE600",
-                    fontFamily: '"Orbitron", monospace',
-                    fontSize: "0.78rem",
-                    "&:hover": { backgroundColor: "rgba(255,230,0,0.08)" },
-                  }}
-                >
-                  <Typography>{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-
-          <VideogameAssetIcon
-            sx={{
-              display: { xs: "flex", md: "none" },
-              mr: 1,
-              color: "#FFE600",
-              filter: "drop-shadow(0 0 5px #FFE600)",
-            }}
-          />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: '"Orbitron", monospace',
-              fontWeight: 900,
-              color: "#FFE600",
-              textDecoration: "none",
-              textShadow: "0 0 8px #FFE600",
-            }}
-          >
-            1UP
-          </Typography>
-
-          <Box
-            sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, gap: 0.5 }}
-          >
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+        {/* ── Desktop nav links ── */}
+        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 3.5, zIndex: 1 }}>
+          {pages.map(({ label, path }) => {
+            const active = isActive(path);
+            return (
+              <Typography
+                key={label}
+                onClick={() => navigate(path)}
                 sx={{
-                  color: "rgba(255,255,255,0.75)",
                   fontFamily: '"Orbitron", monospace',
-                  fontWeight: 600,
-                  fontSize: "0.72rem",
-                  letterSpacing: "0.08em",
-                  px: 2,
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  fontWeight: active ? 700 : 600,
+                  color: active ? "#FFE600" : "rgba(255,255,255,0.72)",
+                  cursor: "pointer",
                   position: "relative",
-                  transition: "all 0.2s",
+                  pb: "2px",
+                  transition: "color 0.2s",
                   "&::after": {
                     content: '""',
                     position: "absolute",
-                    bottom: 6,
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    width: 0,
-                    height: "1.5px",
+                    bottom: -2,
+                    left: 0,
+                    right: 0,
+                    height: "2px",
                     background: "#FFE600",
-                    transition: "width 0.25s",
                     boxShadow: "0 0 6px #FFE600",
+                    opacity: active ? 1 : 0,
+                    transition: "opacity 0.2s, width 0.25s",
                   },
                   "&:hover": {
                     color: "#FFE600",
-                    background: "rgba(255,230,0,0.04)",
-                    "&::after": { width: "60%" },
+                    "&::after": { opacity: 1 },
                   },
                 }}
               >
-                {page}
-              </Button>
-            ))}
-          </Box>
+                {label}
+              </Typography>
+            );
+          })}
+        </Box>
 
-          <Box
-            sx={{ display: "flex", flexDirection: "row", flexGrow: 0 }}
-            gap={4}
-            alignItems={"center"}
+        {/* ── Right side ── */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, zIndex: 1 }}>
+
+          {/* Mobile hamburger */}
+          <IconButton
+            onClick={handleOpenNavMenu}
+            sx={{ display: { xs: "flex", md: "none" }, color: "#FFE600" }}
           >
-            {isauthenticated ? (
-              <>
-                <IconButton aria-label="cart">
-                  <Badge badgeContent={1} color="secondary">
-                    <ShoppingCartIcon
-                      onClick={() => navigate("/cart")}
-                      sx={{
-                        mr: 1,
-                        color: "#FFE600",
-                        cursor: "pointer",
-                        filter: "drop-shadow(0 0 5px #FFE600)",
-                        transition: "filter 0.2s",
-                        "&:hover": {
-                          filter:
-                            "drop-shadow(0 0 12px #FFE600) drop-shadow(0 0 20px rgba(255,230,0,0.6))",
-                        },
-                      }}
-                    />
-                  </Badge>
-                </IconButton>{" "}
-                <Tooltip title="Open settings">
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    sx={{
-                      p: "2px",
-                      border: "1.5px solid #FFE600",
-                      boxShadow: "0 0 8px rgba(255,230,0,0.35)",
-                      transition: "box-shadow 0.2s",
-                      "&:hover": { boxShadow: "0 0 16px rgba(255,230,0,0.65)" },
-                    }}
-                  >
-                    <Avatar
-                      alt={username || ""}
-                      src="/static/images/avatar/2.jpg"
-                      sx={{ width: 32, height: 32 }}
-                    />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "45px" }}
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{ vertical: "top", horizontal: "right" }}
-                  keepMounted
-                  transformOrigin={{ vertical: "top", horizontal: "right" }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                  PaperProps={{
-                    sx: {
-                      backgroundColor: "#0d0d0d",
-                      border: "1px solid rgba(255,230,0,0.3)",
-                      boxShadow: "0 0 20px rgba(255,230,0,0.2)",
-                    },
+            <MenuIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorElNav}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
+              display: { xs: "block", md: "none" },
+              "& .MuiPaper-root": {
+                backgroundColor: "#0d0d0d",
+                border: "1px solid rgba(255,230,0,0.3)",
+                boxShadow: "0 0 20px rgba(255,230,0,0.2)",
+                minWidth: 160,
+              },
+            }}
+          >
+            {pages.map(({ label, path }) => (
+              <MenuItem
+                key={label}
+                onClick={() => { navigate(path); handleCloseNavMenu(); }}
+                sx={{
+                  color: isActive(path) ? "#FFE600" : "rgba(255,255,255,0.75)",
+                  fontFamily: '"Orbitron", monospace',
+                  fontSize: "0.75rem",
+                  letterSpacing: "0.08em",
+                  "&:hover": { backgroundColor: "rgba(255,230,0,0.08)", color: "#FFE600" },
+                }}
+              >
+                {label}
+              </MenuItem>
+            ))}
+          </Menu>
+
+          {/* Authenticated */}
+          {isauthenticated ? (
+            <>
+              <IconButton aria-label="cart" onClick={() => navigate("/cart")} sx={{ p: 0.5 }}>
+                <Badge badgeContent={1} color="secondary">
+                  <ShoppingCartIcon sx={{
+                    color: "#FFE600",
+                    filter: "drop-shadow(0 0 5px #FFE600)",
+                    transition: "filter 0.2s",
+                    "&:hover": { filter: "drop-shadow(0 0 12px #FFE600) drop-shadow(0 0 20px rgba(255,230,0,0.6))" },
+                  }} />
+                </Badge>
+              </IconButton>
+
+              <Tooltip title="Open settings">
+                <IconButton
+                  onClick={handleOpenUserMenu}
+                  sx={{
+                    p: "2px",
+                    border: "1.5px solid #FFE600",
+                    boxShadow: "0 0 8px rgba(255,230,0,0.35)",
+                    transition: "box-shadow 0.2s",
+                    "&:hover": { boxShadow: "0 0 16px rgba(255,230,0,0.65)" },
                   }}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem
-                      key={setting}
-                      onClick={() => {
-                        handleCloseUserMenu();
-                        if (setting === "Logout") {
-                          logout();
-                          navigate("/");
-                        }
-                      }}
-                      sx={{
-                        color: "rgba(255,255,255,0.75)",
-                        fontFamily: '"Orbitron", monospace',
-                        fontSize: "0.75rem",
-                        "&:hover": {
-                          backgroundColor: "rgba(255,230,0,0.08)",
-                          color: "#FFE600",
-                        },
-                      }}
-                    >
-                      <Typography>{setting}</Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </>
-            ) : (
-              <Button
-                onClick={handleLogin}
-                variant="outlined"
-                sx={{
-                  color: "#FFE600",
-                  borderColor: "#FFE600",
-                  fontFamily: '"Orbitron", monospace',
-                  fontWeight: 700,
-                  fontSize: "0.72rem",
-                  letterSpacing: "0.1em",
-                  px: 2.5,
-                  py: 0.75,
-                  boxShadow: "0 0 8px rgba(255,230,0,0.35)",
-                  transition: "all 0.2s",
-                  "&:hover": {
-                    borderColor: "#FFE600",
-                    backgroundColor: "rgba(255,230,0,0.08)",
-                    boxShadow: "0 0 16px rgba(255,230,0,0.65)",
+                  <Avatar alt={username || ""} src="/static/images/avatar/2.jpg" sx={{ width: 32, height: 32 }} />
+                </IconButton>
+              </Tooltip>
+
+              <Menu
+                sx={{ mt: "48px" }}
+                anchorEl={anchorElUser}
+                anchorOrigin={{ vertical: "top", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+                PaperProps={{
+                  sx: {
+                    backgroundColor: "#0d0d0d",
+                    border: "1px solid rgba(255,230,0,0.3)",
+                    boxShadow: "0 0 20px rgba(255,230,0,0.2)",
+                    minWidth: 150,
                   },
                 }}
               >
-                LOG IN
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      if (setting === "Logout") { logout(); navigate("/"); }
+                      if (setting === "Account") navigate("/account");
+                      if (setting === "Orders") navigate("/orders");
+                    }}
+                    sx={{
+                      color: "rgba(255,255,255,0.75)",
+                      fontFamily: '"Orbitron", monospace',
+                      fontSize: "0.72rem",
+                      letterSpacing: "0.06em",
+                      "&:hover": { backgroundColor: "rgba(255,230,0,0.08)", color: "#FFE600" },
+                    }}
+                  >
+                    {setting}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </>
+          ) : (
+            /* Guest buttons */
+            <Box sx={{ display: "flex", gap: 1.5 }}>
+              <Button onClick={() => navigate("/Register")} sx={cyberButtonSx("ghost")}>
+                Sign Up
               </Button>
-            )}
-          </Box>
-        </Toolbar>
-      </Container>
-
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');`}</style>
-    </AppBar>
+              <Button onClick={() => navigate("/login")} sx={cyberButtonSx("primary")}>
+                Log In
+              </Button>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </>
   );
 }
 

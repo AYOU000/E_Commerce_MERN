@@ -6,6 +6,7 @@ interface AuthContextType {
   isauthenticated: boolean;
   login: (username: string, token: string) => void;
   logout: () => void;
+  updated: (Newtoken: string, NewEmail: string) => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -13,7 +14,8 @@ export const AuthContext = createContext<AuthContextType>({
   token: null,
   login: () => {},
   isauthenticated: false,
-  logout: ()=> {}
+  logout: ()=> {},
+  updated: () => {}
 });
 
 export const useAuth = () => useContext(AuthContext);

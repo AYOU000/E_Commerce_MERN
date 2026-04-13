@@ -7,6 +7,7 @@ interface creatCartforUserPrams {
 }
 interface getActiveCartforUserPrams {
   userId: string;
+  popluateProduct?: boolean;
 }
 
 const creatCartforUser = async ({ userId }: creatCartforUserPrams) => {
@@ -17,8 +18,17 @@ const creatCartforUser = async ({ userId }: creatCartforUserPrams) => {
 
 export const getActiveCartforUser = async ({
   userId,
+  popluateProduct
 }: getActiveCartforUserPrams) => {
-  let cart = await cartModel.findOne({ userId, status: "active" });
+  let cart ;
+  if(popluateProduct)
+  {
+    cart = await cartModel.findOne({ userId, status: "active" }).populate('items.product')
+  }
+  else 
+  {
+    cart = await cartModel.findOne({ userId, status: "active" })
+  }
 
   if (!cart) {
     cart = await creatCartforUser({ userId });
@@ -69,7 +79,7 @@ export const additemforuser = async ({
   cart.totalAmount += product.price * quantity;
 
   const updatedcart = await cart.save();
-  return { data: updatedcart, statusCode: 200 };
+  return { data: await getActiveCartforUser({ userId , popluateProduct: true }), statusCode: 200 };
 };
 interface updateitemforuserPrams {
   productId: any;
@@ -95,7 +105,7 @@ export const updateitemforuser = async ({
     return { data: "product not found!", statusCode: 400 };
   }
   if (product.stock < quantity) {
-    return { data: "low product stock fro item !", statusCode: 400 };
+    return { data: "low product stock for item !", statusCode: 400 };
   }
 
   const otherproduct = cart.items.filter((p) => {
@@ -108,8 +118,8 @@ export const updateitemforuser = async ({
   exsistProduct.quantity = quantity;
   total += exsistProduct.quantity * exsistProduct.unitPrice;
   cart.totalAmount = total;
-  const updatedcart = await cart.save();
-  return { data: updatedcart, statusCode: 200 };
+  await cart.save();
+  return { data: await getActiveCartforUser({ userId , popluateProduct: true }), statusCode: 200 };
 };
 interface deleteitemforuserPrams {
   productId: any;
@@ -134,10 +144,10 @@ export const deleteitemforuser = async ({
     sum += product.quantity * product.unitPrice;
     return sum;
   }, 0);
-  cart.items = otherproduct;
+  cart.items = otherproduct; 
   cart.totalAmount = total;
-  const updatedcart = await cart.save();
-  return { data: updatedcart, statusCode: 200 };
+  await cart.save();
+  return { data: await getActiveCartforUser({userId,popluateProduct: true}), statusCode: 200 };
 };
 interface checkoutforuserPrams {
   userId: string;

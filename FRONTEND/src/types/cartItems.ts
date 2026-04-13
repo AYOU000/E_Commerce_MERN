@@ -4,5 +4,5 @@ export interface cartItem
   title: string;
   unitPrice: number;
   quantity: number; 
-  productImage: string;       
+  image: string;       
 }

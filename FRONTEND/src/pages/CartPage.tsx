@@ -3,8 +3,11 @@ import { useEffect, useState } from "react";
 import type { Product } from "../types/product";
 import { baseURL } from "../constants/baseURL";
 import { useAuth } from "../context/auth/AuthContext";
+import { useCart } from "../context/cart/cartcontext";
+import { Box } from "@mui/material";
 export const CartPage = () => {
   const { token } = useAuth();
+  const {cartItems , totalAmount} = useCart();
   const [cart, setcart] = useState<Product[]>([]);
   const [error, setError] = useState(false);
 
@@ -37,7 +40,9 @@ export const CartPage = () => {
   return (
     <>
       <Container sx={{ marginTop: 10 }}>
-        <p>my new cart</p>
+        {cartItems.map((item)=>
+        <Box>{item.title}</Box>
+        )}
       </Container>
     </>
   );

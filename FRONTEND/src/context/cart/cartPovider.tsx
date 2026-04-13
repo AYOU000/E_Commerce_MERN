@@ -1,15 +1,42 @@
 import {  useState, type FC, type PropsWithChildren } from "react";
 import type { cartItem } from "../../types/cartItems";
+import { baseURL } from "../../constants/baseURL";
 import { CartContext } from "./cartcontext";
+import { useAuth } from "../auth/AuthContext";
 
 
 const CartProvider: FC<PropsWithChildren> = ({ children }) => {
+    const {token} = useAuth();
     const[cartItems,setcartitems] = useState<cartItem[]>([]);
     const[totalAmount,settotalAmount] = useState<number>(0);
-  
-    const addItemToCart = (productId: string) =>
+    const [error, setError] = useState("");
+
+    const addItemToCart =  async (productId: string ) =>
     {
-      console.log(productId)
+      try{
+          const response = await fetch(`${baseURL}/cart/item`, {
+             method: "POST",
+             headers: { "Content-Type": "application/json" ,
+              Authorization: `Bearer ${token}`
+             }, 
+             body: JSON.stringify({ productId ,quantity : 1 }),
+           });
+           if(!response.ok)
+           {
+            setError('failed to add to card')
+           }
+          const { items, totalAmount } = await response.json();
+           if(!items)
+           {
+            setError("failed to parse cart data")
+           }
+           const cartItemMap = items.map(({product,quantity}:{product:{ _id: string; title: string; image: string; price: number },quantity:number})=>({ProductId: product._id,title:product.title,image:product.image,quantity,unitPrice:product.price}))
+           setcartitems([...cartItemMap])
+           settotalAmount(totalAmount)
+      }catch {
+          setError("Something went wrong"); 
+    
+      }
     }
     
     return (   

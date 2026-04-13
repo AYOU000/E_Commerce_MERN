@@ -110,7 +110,6 @@ const RegisterPage = () => {
             CREATE ACCOUNT
           </Typography>
 
-          {/* ✅ Error message */}
           {error && (
             <Box
               sx={{
