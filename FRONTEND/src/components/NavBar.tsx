@@ -14,6 +14,7 @@ import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useAuth } from "../context/auth/AuthContext";
 import { useNavigate, useLocation } from "react-router";
+import { useCart } from "../context/cart/cartContext";
 
 const pages = [
   { label: "HOME",  path: "/" },
@@ -113,6 +114,7 @@ function NavBar() {
   const navigate  = useNavigate();
   const location  = useLocation();
   const { username, isauthenticated, logout } = useAuth();
+  const {cartItems} = useCart();
 
   const handleOpenNavMenu  = (e: React.MouseEvent<HTMLElement>) => setAnchorElNav(e.currentTarget);
   const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) => setAnchorElUser(e.currentTarget);
@@ -260,7 +262,7 @@ function NavBar() {
           {isauthenticated ? (
             <>
               <IconButton aria-label="cart" onClick={() => navigate("/cart")} sx={{ p: 0.5 }}>
-                <Badge badgeContent={1} color="secondary">
+                <Badge badgeContent={cartItems.length} color="secondary">
                   <ShoppingCartIcon sx={{
                     color: "#FFE600",
                     filter: "drop-shadow(0 0 5px #FFE600)",

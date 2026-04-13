@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useCart } from "../context/cart/cartcontext";
+import { useCart } from "../context/cart/cartContext";
 
 interface props {
   image: string;
