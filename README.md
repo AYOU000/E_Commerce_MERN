@@ -55,7 +55,7 @@ E_Commerce_MERN/
    JWT_SECRET=your_secure_string
    PORT=10000
    ```
-3. Run `yarn dev`.
+3. Run `npm run dev`.
 
 ### Frontend
 1. Navigate to `/FRONTEND` and run `npm run install`.
