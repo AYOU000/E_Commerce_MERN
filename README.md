@@ -33,17 +33,17 @@ A robust, production-ready video game e-commerce platform. This project demonstr
 
 E_Commerce_MERN/
 ├── BACKEND/
-│   ├── models/
-│   ├── routes/
-│   ├── services/
-│   ├── middleware/
-│   └── types/
-└── FRONTEND/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── context/
-│   └── types/
+     models/
+     routes/
+     services/
+     middleware/
+     types/
+ ├── FRONTEND/
+     src/
+     components/
+     pages/
+     context/
+     types/
 
 ## 🚀 Installation & Local Setup
 
