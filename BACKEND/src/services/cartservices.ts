@@ -1,5 +1,4 @@
 import cartModel from "../models/cartModule.js";
-import orderModel, { OrderItemInput } from "../models/orderModule.js";
 import productModel from "../models/productModel.js";
 
 interface creatCartforUserPrams {
