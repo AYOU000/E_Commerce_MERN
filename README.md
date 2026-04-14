@@ -30,6 +30,7 @@ A robust, production-ready video game e-commerce platform. This project demonstr
 - Account management (update email, change password)
 - Seeded with 200 real game titles
 ## Project Structure
+
 E_Commerce_MERN/
 ├── BACKEND/
 │   ├── models/
