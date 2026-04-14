@@ -19,6 +19,7 @@ A robust, production-ready video game e-commerce platform. This project demonstr
 | **Frontend** | React 18, TypeScript | Vite, Fetch API, Mui |
 | **Backend** | Node.js, Express | TypeScript, ESM (NodeNext), JWT |
 | **Database** | MongoDB Atlas | Mongoose ODM, Relational Population |
+Vercel + Render deployment 
 ---
 ## Features
 
