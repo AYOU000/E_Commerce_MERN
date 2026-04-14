@@ -1,1 +1,1 @@
-export const baseURL = "http://localhost:3000"
+export const baseURL = "https://e-commerce-mern-1nu4.onrender.com"
