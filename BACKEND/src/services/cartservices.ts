@@ -1,6 +1,6 @@
-import cartModel from "../models/cartModule";
-import orderModel, { OrderItemInput } from "../models/orderModule";
-import productModel from "../models/productModel";
+import cartModel from "../models/cartModule.js";
+import orderModel, { OrderItemInput } from "../models/orderModule.js";
+import productModel from "../models/productModel.js";
 
 interface creatCartforUserPrams {
   userId: string;
@@ -176,36 +176,4 @@ export const decreaseQuantity = async ({ productId, userId }: updateitemforuserP
   return { data: cart, statusCode: 200 };
 };
 
-interface checkoutforuserPrams {
-  userId: string;
-}
-export const checkoutforuser = async ({
-  userId,
-}: checkoutforuserPrams) => {
-  const cart = await getActiveCartforUser({ userId });
-  const orderitems: OrderItemInput[] = [];
 
-  for (const item of cart.items) {
-    const product = await productModel.findById(item.product);
-    if (!product) {
-      return { data: "product not found!", statusCode: 400 };
-    }
-    const orderItem: OrderItemInput = {
-      productTitle: product.title,
-      productImage: product.image,
-      unitPrice: item.unitPrice,
-      quantity: item.quantity,
-    };
-    orderitems.push(orderItem);
-  }
-
-  const order = await orderModel.create({
-    orderitem: orderitems,
-    total: cart.totalAmount,
-    userId,
-  });
-  await order.save();
-  cart.status = "completed";
-  await cart.save();
-  return { data: order, statusCode: 200 };
-};

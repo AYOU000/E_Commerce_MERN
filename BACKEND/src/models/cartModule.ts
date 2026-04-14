@@ -1,5 +1,5 @@
 import mongoose, { Schema ,Document, ObjectId, Types}  from "mongoose";
-import { IProduct } from "./productModel";
+import { IProduct } from "./productModel.js";
 
 const CartstatusEnum = ["active" ,"completed"]
 export interface IcartItem  

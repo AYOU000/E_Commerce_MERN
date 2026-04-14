@@ -1,8 +1,8 @@
 import express, { Response } from "express";
-import { checkoutforuser } from "../services/cartservices";
-import validateJWT from "../middleware/validateJWT";
-import { extendRequest } from "../types/extendRequest";
-import { getordersforUser } from "../services/orderservices";
+import { checkoutforuser } from "../services/cartservices.js";
+import validateJWT from "../middleware/validateJWT.js";
+import { extendRequest } from "../types/extendRequest.js";
+import { getordersforUser } from "../services/orderservices.js";
 
 const Router = express.Router();
 Router.get('/', validateJWT, async (req: extendRequest, res: Response) => {

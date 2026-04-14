@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { getallproduct } from "../services/Productservice";
+import { getallproduct } from "../services/Productservice.js";
 
 const Router = express.Router();
 

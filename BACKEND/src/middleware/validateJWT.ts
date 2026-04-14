@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import userModel from "../models/userModel";
-import { extendRequest } from "../types/extendRequest";
+import userModel from "../models/userModel.js";
+import { extendRequest } from "../types/extendRequest.js";
 
 const validateJWT = (req: extendRequest, res: Response, next: NextFunction) => {
   const authorizationheader = req.get("authorization");
@@ -18,32 +18,32 @@ const validateJWT = (req: extendRequest, res: Response, next: NextFunction) => {
     return;
   }
 
-  jwt.verify(token, process.env.JWT_SECRETKEY || "", async (err, payload) => {
-    if (err) {
-      res.status(403).json({ message: "Invalid token" });
-      return;
-    }
+  jwt.verify(token, process.env.JWT_SECRETKEY || "", async (err: any, payload: any) => {
+  if (err) {
+    res.status(403).json({ message: "Invalid token" });
+    return;
+  }
 
-    if (!payload) {
-      res.status(403).json({ message: "Invalid token payload" });
-      return;
-    }
+  if (!payload) {
+    res.status(403).json({ message: "Invalid token payload" });
+    return;
+  }
 
-    const payloadUser = payload as {
-      firstname: string;
-      lastname: string;
-      email: string;
-    };
+  const payloadUser = payload as {
+    firstname: string;
+    lastname: string;
+    email: string;
+  };
 
-    const user = await userModel.findOne({ email: payloadUser.email });
-    if (!user) {
-      res.status(403).json({ message: "User not found" });
-      return;
-    }
+  const user = await userModel.findOne({ email: payloadUser.email });
+  if (!user) {
+    res.status(403).json({ message: "User not found" });
+    return;
+  }
 
-    req.user = user;
-    next();
-  });
+  req.user = user;
+  next();
+});
 };
 
 export default validateJWT;

@@ -1,6 +1,6 @@
-import orderModel, { OrderItemInput } from "../models/orderModule";
-import productModel from "../models/productModel";
-import { getActiveCartforUser } from "./cartservices";
+import orderModel, { OrderItemInput } from "../models/orderModule.js";
+import productModel from "../models/productModel.js";
+import { getActiveCartforUser } from "./cartservices.js";
 interface getordersforUserPrams
 {
  userId: string; 
@@ -38,4 +38,14 @@ export const checkoutforuser = async ({
     };
     orderitems.push(orderItem);
   }
-}
+
+  const order = await orderModel.create({
+    orderitem: orderitems,
+    total: cart.totalAmount,
+    userId,
+  });
+  await order.save();
+  cart.status = "completed";
+  await cart.save();
+  return { data: order, statusCode: 200 };
+};

@@ -1,5 +1,5 @@
-import games from "../data/games";
-import productModel from "../models/productModel";
+import games from "../data/games.js";
+import productModel from "../models/productModel.js";
 
 export const getallproduct = async () =>
 {

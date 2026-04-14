@@ -1,7 +1,7 @@
 import express, { Response } from "express";
-import { additemforuser, checkoutforuser, clearCartforuser, decreaseQuantity, deleteitemforuser, getActiveCartforUser, increaseQuantity } from "../services/cartservices";
-import { extendRequest } from "../types/extendRequest";
-import validateJWT from "../middleware/validateJWT";
+import { additemforuser, checkoutforuser, clearCartforuser, decreaseQuantity, deleteitemforuser, getActiveCartforUser, increaseQuantity } from "../services/cartservices.js";
+import { extendRequest } from "../types/extendRequest.js";
+import validateJWT from "../middleware/validateJWT.js";
 
 const Router = express.Router();
 
