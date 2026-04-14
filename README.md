@@ -16,7 +16,7 @@ A robust, production-ready video game e-commerce platform. This project demonstr
 
 | Layer | Technology | Key Features |
 | :--- | :--- | :--- |
-| **Frontend** | React 18, TypeScript | Vite, Axios, Debounced Discovery |
+| **Frontend** | React 18, TypeScript | Vite, Fetch API, Debounced Discovery |
 | **Backend** | Node.js, Express | TypeScript, ESM (NodeNext), JWT |
 | **Database** | MongoDB Atlas | Mongoose ODM, Relational Population |
 | **DevOps** | Render, Vercel | CI/CD, CORS Management, SSL Security |
