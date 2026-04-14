@@ -2,6 +2,7 @@ import { useEffect, useState, type FC, type PropsWithChildren } from "react";
 import type { cartItem } from "../../types/cartItems";
 import { baseURL } from "../../constants/baseURL";
 import { useAuth } from "../auth/AuthContext";
+import { CartContext } from "./cartcontext";
 
 type CartProduct = {
   product: { _id: string; title: string; image: string; price: number };
