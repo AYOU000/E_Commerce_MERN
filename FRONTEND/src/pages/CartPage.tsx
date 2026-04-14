@@ -4,7 +4,6 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useNavigate } from "react-router";
-import { useCart } from "../context/cart/CartContext";
 
 export const CartPage = () => {
   const {
