@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { seedinitialproduct } from './services/Productservice.js';
 import cartRoute from './routes/cartRoute.js';
 import cors from 'cors';
+import orderRoute from './routes/orderRoute.js';
 dotevn.config();
 const app: Express = express();
 app.use(cors());
@@ -20,6 +21,7 @@ seedinitialproduct()
 app.use('/product',productRoute)
 app.use('/users', userRoute);
 app.use('/cart',cartRoute);
+app.use('/order',orderRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

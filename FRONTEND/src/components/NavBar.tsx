@@ -14,12 +14,11 @@ import VideogameAssetIcon from "@mui/icons-material/VideogameAsset";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useAuth } from "../context/auth/AuthContext";
 import { useNavigate, useLocation } from "react-router";
-import { useCart } from "../context/cart/cartContext";
+import { useCart } from "../context/cart/cartcontext";
 
 const pages = [
   { label: "HOME",  path: "/" },
   { label: "Games", path: "/Games" },
-  { label: "Blog",  path: "/blog" },
 ];
 const settings = ["Orders", "Account", "Logout"];
 

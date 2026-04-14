@@ -11,7 +11,6 @@ export interface Iorder extends Document
 {
  orderitem:[OrderItemInput ];
  total: number;
- address: string;
  userId: ObjectId | string ;
 }
 
@@ -24,7 +23,6 @@ const orderitemschema = new Schema<OrderItemInput>({
 const orderschema = new Schema <Iorder>({
  orderitem:[orderitemschema],
  total:{type:Number,required:true},
- address:{type:String,required:true},
  userId:{type:Schema.Types.ObjectId,ref:"user",required:true}
 })
 const orderModel = mongoose.model<Iorder>('order',orderschema);

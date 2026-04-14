@@ -213,8 +213,8 @@ export default function HomePage() {
                     }}
                   >
                     {[
-                      ...products.slice(row * 7, row * 7 + 7),
-                      ...products.slice(row * 7, row * 7 + 7),
+                      ...products.slice(row * 5, row * 5 + 5),
+                      ...products.slice(row * 5, row * 5 + 5),
                     ].map((p, i) => (
                       <Box
                         key={`${p._id}-${i}`}
