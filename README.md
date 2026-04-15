@@ -229,8 +229,6 @@ npm run dev
 
 ## Author
 
-**Ayoub Bendaoud** — Software Engineering Student @ HDU  
+**Ayoub Ben daoud** — Software Engineering Student @ HDU  
 GitHub: [AYOU000](https://github.com/AYOU000)  
 Email: BENAYOUB0908@gmail.com
-
-The backend follows a **layered architecture**:
